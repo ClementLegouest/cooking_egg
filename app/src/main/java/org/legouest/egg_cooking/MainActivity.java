@@ -2,12 +2,22 @@ package org.legouest.egg_cooking;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private final int HARD_EGG_COOKING_TIME = 8 * MINUTE_IN_MILLISECONDS;
     private final int POCHED_EGG_COOKING_TIME = 6 * MINUTE_IN_MILLISECONDS;
     private final int POACHED_EGG_COOKING_TIME = 4 * MINUTE_IN_MILLISECONDS;
-    private final int BOILED_EGG_COOKING_TIME = 3 * MINUTE_IN_MILLISECONDS;
+    private final double BOILED_EGG_COOKING_TIME = 0.1 * MINUTE_IN_MILLISECONDS;
 
     private CountDownTimer countDownTimer;
+    private MediaPlayer mediaPlayer;
     private long timeLeftInMilliseconds = HARD_EGG_COOKING_TIME;
     private boolean timeIsRunning;
 
@@ -33,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().hide();
 
         countdownText = findViewById(R.id.countdown_text);
         startButton = findViewById(R.id.start_button);
@@ -90,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             enableButtons();
             stopTimer();
         } else if(startButton.getText() == "STOP") {
+            mediaPlayer.stop();
             enableButtons();
             resetTimer();
         } else {
@@ -122,6 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+                showToastMessage("Cuisson terminée");
+                try {
+                    playRingtone();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 timeIsRunning = false;
                 startButton.setText("STOP");
             }
@@ -129,6 +149,55 @@ public class MainActivity extends AppCompatActivity {
 
         startButton.setText("PAUSE");
         timeIsRunning = true;
+    }
+
+    private void playRingtone() throws IOException {
+        Context context = getApplicationContext();
+
+        mediaPlayer = new MediaPlayer();
+        AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.short_chicken_song);
+        mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+        afd.close();
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            AudioAttributes audioAttributes = new AudioAttributes
+                    .Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            mediaPlayer.setAudioAttributes(audioAttributes);
+        } else {
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+        }
+
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    mediaPlayer.prepare();
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean prepared) {
+                if (prepared) {
+                    mediaPlayer.start();
+                }
+            }
+        }.execute();
+    }
+
+    private void showToastMessage(String message) {
+        Context context = getApplicationContext();
+        CharSequence text = message;
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     private void stopTimer() {
