@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EggCooking</string>
+    <string name="app_title">The perfect eggs cooking time</string>
+    <string name="hard_eggs_button">Hard Eggs</string>
+    <string name="poched_eggs_button">Poched Eggs</string>
+    <string name="poached_eggs_button">Poached Eggs</string>
+    <string name="boiled_eggs_button">Boiled Eggs</string>
+    <string name="start_button">Start</string>
+    <string name="pause_button">Pause</string>
+    <string name="stop_button">Stop</string>
 </resources>

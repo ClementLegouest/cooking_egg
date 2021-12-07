@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CuissonOeufs</string>
+    <string name="app_title">La cuisson des oeufs</string>
+    <string name="hard_eggs_button">Oeufs durs</string>
+    <string name="poched_eggs_button">Oeufs mollets</string>
+    <string name="poached_eggs_button">Oeufs pochés</string>
+    <string name="boiled_eggs_button">Oeufs à la coque</string>
+    <string name="start_button">Démarrer</string>
+    <string name="pause_button">Pause</string>
+    <string name="stop_button">Arrêter</string>
+</resources>

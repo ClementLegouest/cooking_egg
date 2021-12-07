@@ -17,7 +17,7 @@
         android:id="@+id/page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="La cuisson des oeufs"
+        android:text="@string/app_title"
         android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Oeufs durs"
+        android:text="@string/hard_eggs_button"
         android:id="@+id/hard_egg_button"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/page_title"
@@ -39,7 +39,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Oeufs mollets"
+        android:text="@string/poched_eggs_button"
         android:id="@+id/poched_egg_button"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/hard_egg_button"
@@ -49,7 +49,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Oeufs pochés"
+        android:text="@string/poached_eggs_button"
         android:id="@+id/poached_egg_button"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/poched_egg_button"
@@ -59,7 +59,7 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Oeufs à la coque"
+        android:text="@string/boiled_eggs_button"
         android:id="@+id/boiled_egg_button"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/poached_egg_button"
@@ -83,7 +83,7 @@
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
+        android:text="@string/start_button"
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@+id/countdown_text"
         app:layout_constraintLeft_toLeftOf="parent"

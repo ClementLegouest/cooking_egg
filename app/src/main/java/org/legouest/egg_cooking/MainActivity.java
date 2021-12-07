@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 timeIsRunning = false;
-                startButton.setText("STOP");
+                startButton.setText(R.string.stop_button);
             }
         }.start();
 
-        startButton.setText("PAUSE");
+        startButton.setText(R.string.pause_button);
         timeIsRunning = true;
     }
 
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     private void stopTimer() {
         countDownTimer.cancel();
 
-        startButton.setText("START");
+        startButton.setText(R.string.start_button);
         timeIsRunning = false;
     }
 
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         countDownTimer.cancel();
 
         timeLeftInMilliseconds = HARD_EGG_COOKING_TIME;
-        startButton.setText("START");
+        startButton.setText(R.string.start_button);
         updateTimer();
     }
 
