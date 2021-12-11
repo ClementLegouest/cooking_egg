@@ -9,4 +9,5 @@
     <string name="start_button">Start</string>
     <string name="pause_button">Pause</string>
     <string name="stop_button">Stop</string>
+    <string name="finishedCooking">Eggs are cooked</string>
 </resources>

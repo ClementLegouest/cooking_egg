@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private long timeLeftInMilliseconds = HARD_EGG_COOKING_TIME;
     private boolean timeIsRunning;
+    private boolean songIsRinging;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         poachedEggButton = findViewById(R.id.poached_egg_button);
         boiledEggButton = findViewById(R.id.boiled_egg_button);
 
+        timeIsRunning = false;
+        songIsRinging = false;
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
         hardEggButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TEST", "onClick: Oeufs dur");
                 timeLeftInMilliseconds = HARD_EGG_COOKING_TIME;
                 updateTimer();
             }
@@ -73,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         pochedEggButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TEST", "onClick: Ouefs mollets");
                 timeLeftInMilliseconds = POCHED_EGG_COOKING_TIME;
                 updateTimer();
             }
@@ -99,11 +101,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startStop() {
-        if(timeIsRunning) {
+        if(timeIsRunning && !songIsRinging) {
             enableButtons();
             stopTimer();
-        } else if(startButton.getText() == "STOP") {
+        } else if (songIsRinging) {
             mediaPlayer.stop();
+            songIsRinging = false;
             enableButtons();
             resetTimer();
         } else {
@@ -136,14 +139,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                showToastMessage("Cuisson terminée");
+                showToastMessage(getResources().getString(R.string.finishedCooking));
+                timeIsRunning = false;
+                startButton.setText(R.string.stop_button);
                 try {
                     playRingtone();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                timeIsRunning = false;
-                startButton.setText(R.string.stop_button);
             }
         }.start();
 
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         Context context = getApplicationContext();
 
         mediaPlayer = new MediaPlayer();
-        AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.short_chicken_song);
+        AssetFileDescriptor afd = context.getResources().openRawResourceFd(R.raw.rooster);
         mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
         afd.close();
 
@@ -169,6 +172,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         }
+
+        mediaPlayer.prepare();
+        mediaPlayer.start();
+        songIsRinging = true;
 
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -188,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     mediaPlayer.start();
                 }
             }
-        }.execute();
+        };
     }
 
     private void showToastMessage(String message) {
