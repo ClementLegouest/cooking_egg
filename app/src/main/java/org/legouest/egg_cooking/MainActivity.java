@@ -21,18 +21,18 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final int MINUTE_IN_MILLISECONDS = 60000;
+    private final int HARD_EGG_COOKING_TIME = 8 * MINUTE_IN_MILLISECONDS;
+    private final int POCHED_EGG_COOKING_TIME = 6 * MINUTE_IN_MILLISECONDS;
+    private final int POACHED_EGG_COOKING_TIME = 4 * MINUTE_IN_MILLISECONDS;
+    private final double BOILED_EGG_COOKING_TIME = 3 * MINUTE_IN_MILLISECONDS;
+
     private TextView countdownText;
     private Button startButton;
     private Button hardEggButton; // Oeuf dur // 8 minutes
     private Button pochedEggButton; // Oeuf mollet // 6 minutes
     private Button poachedEggButton; // Oeuf poché // 4 minutes
     private Button boiledEggButton; // Oeuf à la coque // 3 minutes
-
-    private final int MINUTE_IN_MILLISECONDS = 60000;
-    private final int HARD_EGG_COOKING_TIME = 8 * MINUTE_IN_MILLISECONDS;
-    private final int POCHED_EGG_COOKING_TIME = 6 * MINUTE_IN_MILLISECONDS;
-    private final int POACHED_EGG_COOKING_TIME = 4 * MINUTE_IN_MILLISECONDS;
-    private final double BOILED_EGG_COOKING_TIME = 0.1 * MINUTE_IN_MILLISECONDS;
 
     private CountDownTimer countDownTimer;
     private MediaPlayer mediaPlayer;
